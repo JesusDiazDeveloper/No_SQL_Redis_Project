@@ -1,0 +1,110 @@
+{
+	"info": {
+		"_postman_id": "2104313f-098c-454f-9a07-45e897f54ee1",
+		"name": "Redis",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26973271"
+	},
+	"item": [
+		{
+			"name": "localhost:3000/addUser",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\" : \"3\",\r\n    \"username\" : \"deadpool\" ,\r\n    \"status\" : \"online\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/addUser",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"addUser"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/createChat",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"users\": [\r\n    {\r\n      \"userId\": \"1\",\r\n      \"username\": \"Jess\"\r\n    },\r\n    {\r\n      \"userId\": \"2\",\r\n      \"username\": \"Maca\"\r\n    }\r\n  ]\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/createChat",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"createChat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/sendMessage",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"chatId\": \"777c53ed-2566-4b27-9982-7ca978ffff73\",\r\n  \"userId\": \"1\",\r\n  \"message\": \"Hola, ¿cómo estás?\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:3000/sendMessage",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"sendMessage"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "localhost:3000/getChat/777c53ed-2566-4b27-9982-7ca978ffff73",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/getChat/777c53ed-2566-4b27-9982-7ca978ffff73",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"getChat",
+						"777c53ed-2566-4b27-9982-7ca978ffff73"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
