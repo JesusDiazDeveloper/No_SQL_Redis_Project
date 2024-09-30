@@ -21,13 +21,14 @@ client.on('error', (err) => console.error('Redis error:', err));
 
 // Endpoint para agregar usuarios
 app.post('/addUser', async (req, res) => {
-  try {
-    const { userId, username, status } = req.body;
-    const reply = await client.hSet(`user:${userId}`, 'username', username, 'status', status);
-    res.json({ message: 'User added', reply });
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
+    try {
+        const { userId, username, status } = req.body;
+        const userData = { 'username': username, 'status': status }
+        const reply = await client.hSet(`user:${userId}`, userData);
+        res.json({ message: 'User added', reply });
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
 });
 
 app.post('/createChat', async (req, res) => {
@@ -47,9 +48,9 @@ app.post('/createChat', async (req, res) => {
         };
 
         // Guardar el chat en Redis
-        await client.hSet(`chat:${chatId}`, 
-            'chatData', JSON.stringify(chatData)); 
-        
+        await client.hSet(`chat:${chatId}`,
+            'chatData', JSON.stringify(chatData));
+
         // Verificar lo que se ha guardado
         const chatDataStored = await client.hGetAll(`chat:${chatId}`);
         console.log(chatDataStored); // Agrega esta línea para depuración
@@ -60,19 +61,15 @@ app.post('/createChat', async (req, res) => {
     }
 });
 
-
-// Endpoint para enviar un mensaje en un chat
 // Endpoint para enviar un mensaje en un chat
 app.post('/sendMessage', async (req, res) => {
     try {
         const { chatId, userId, message } = req.body;
 
-        console.log(chatId, userId, message);
-  
         // Obtener el chat existente
         const chatKey = `chat:${chatId}`;
         const chatData = await client.hGetAll(chatKey);
-  
+
         if (!chatData || !chatData.chatData) {
             return res.status(404).json({ error: 'Chat not found' });
         }
@@ -83,16 +80,15 @@ app.post('/sendMessage', async (req, res) => {
 
         // Agregar el nuevo mensaje al array de mensajes
         messages.push({ userId, message, timestamp: new Date() });
-  
+
         // Actualizar el chatData en Redis
         await client.hSet(chatKey, 'chatData', JSON.stringify(chatDataParsed));
-  
+
         res.json({ message: 'Message sent', messages });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
 });
-  
 
 // Recuperar un chat por su ID
 app.get('/getChat/:chatId', async (req, res) => {
@@ -121,5 +117,5 @@ app.get('/getChat/:chatId', async (req, res) => {
 // nodemon server.js
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`);
 });
